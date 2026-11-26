@@ -13,6 +13,13 @@ if (line.length === 0 || line.length > 160) {
   process.exit(1);
 }
 
+// The gate requires a single line. trim() strips the ends, so reject any
+// newline left inside the line instead of submitting a multi-line entry.
+if (line.includes("\n") || line.includes("\r")) {
+  console.error("entry line must be a single line");
+  process.exit(1);
+}
+
 // The grader reads the entry from the output directory, so write it there
 // (byte-for-byte the same line, no trailing newline) as well as to stdout.
 const outDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
